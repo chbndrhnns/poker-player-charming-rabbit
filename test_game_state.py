@@ -1,4 +1,4 @@
-from player import Game, Player1
+from player import Game, Player1, Player
 
 data = {'tournament_id': '655e6ea29c97ef0002da0843',
         'game_id': '655f51fb5485f700028038ee', 'round': 7, 'players': [
@@ -32,4 +32,6 @@ def test_check_if_bet_is_above_threshold():
     actual = Game(players=[other, us], current_buy_in=0, in_action=0, minimum_raise=2, small_blind=10)
     assert actual.raise_amount() == 0
 
-
+def test_call_ranking():
+    response = Player().call_ranking()
+    assert response == None
