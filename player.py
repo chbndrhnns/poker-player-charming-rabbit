@@ -8,6 +8,7 @@ UPPER_BET_THRESHOLD = 101
 class Player1(BaseModel):
     name: str
     bet: int
+    stack: int
 
 
 class Game(BaseModel):
@@ -26,20 +27,21 @@ class Game(BaseModel):
     def check(self):
         ...
 
+    def get_our_data(self):
+        for player in self.players:
+            if player.name == 'Charming Rabbit':
+                return player
+
 
 class Player:
-    VERSION = "v 1 immediate all in"
+    VERSION = "v 2 immediate all in"
+    print(VERSION)
 
     def betRequest(self, game_state):
         print(game_state)
         game = Game.model_validate(game_state)
-        raise_amount = game.raise_amount()
-
-        if raise_amount > UPPER_BET_THRESHOLD:
-            print("'raise_amount' is larger than our threshold.")
-            raise_amount = 0
-
-        return raise_amount
+        our_data = game.get_our_data()
+        return our_data.stack
 
     def showdown(self, game_state):
         pass
