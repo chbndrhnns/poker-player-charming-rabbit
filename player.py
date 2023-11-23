@@ -18,10 +18,7 @@ class Game(BaseModel):
     small_blind: int
 
     def raise_amount(self):
-        minimum_raise = self.current_buy_in - self.players[
-            self.in_action].bet + self.minimum_raise
-        print(f"Minimum raise: {minimum_raise}")
-        return minimum_raise + self.small_blind
+        return 10000
 
     def fold(self):
         ...
@@ -31,7 +28,7 @@ class Game(BaseModel):
 
 
 class Player:
-    VERSION = "Default Python folding player"
+    VERSION = "v 1 immediate all in"
 
     def betRequest(self, game_state):
         print(game_state)
