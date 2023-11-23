@@ -1,4 +1,4 @@
-from player import Game
+from player import Game, Player1
 
 data = {'tournament_id': '655e6ea29c97ef0002da0843',
         'game_id': '655f51fb5485f700028038ee', 'round': 7, 'players': [
@@ -25,3 +25,11 @@ def test_game_state():
 def test_minimum_raise_amount():
     actual = Game.model_validate(data)
     assert actual.raise_amount() == 8
+
+def test_check_if_bet_is_above_threshold():
+    other = Player1(name="other", bet=101)
+    us = Player1(name="us", bet=50)
+    actual = Game(players=[other, us], current_buy_in=0, in_action=0, minimum_raise=2, small_blind=10)
+    assert actual.raise_amount() == 0
+
+
