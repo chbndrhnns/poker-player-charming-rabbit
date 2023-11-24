@@ -16,12 +16,16 @@ example = {'tournament_id': '655e6ea29c97ef0002da0843',
 
 
 class Player:
-    VERSION = "v 7 log bet"
+    VERSION = "v 8 add tests"
 
     def has_pair(self, hole_cards):
         if hole_cards[0]["rank"] == hole_cards[1]["rank"]:
+            print("We have a pair")
             return True
         return False
+
+    def has_suited(self, hole_cards):
+        return hole_cards[0]["suit"] == hole_cards[1]["suit"]
 
     def betRequest(self, game_state):
         print(f"version: {self.VERSION} ")
@@ -32,17 +36,24 @@ class Player:
         hole_cards = our_data["hole_cards"]
 
         try:
-            # strategy: find premium pair
+            # strategy: find good pair
             if self.has_pair(hole_cards):
-                print("We have a pair")
-                if hole_cards[0]["rank"] in ("10", "J", "Q", "K", "A"):
-                    print("We have a premium pair")
+                if self.has_good_pair(hole_cards):
+
                     bet = our_data["stack"]
+            elif self.has_suited(hole_cards):
+                ...
         except:
             pass
 
         print(f"Our decision: {bet}")
         return bet
+
+    def has_good_pair(self, hole_cards):
+        if hole_cards[0]["rank"] in ("10", "J", "Q", "K", "A"):
+            print("We have a good pair")
+            return True
+        return False
 
     def _get_our_data(self, game_state):
         our_data = game_state["players"][game_state["in_action"]]
