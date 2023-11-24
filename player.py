@@ -18,7 +18,7 @@ example = {'tournament_id': '655e6ea29c97ef0002da0843',
 
 
 class Player:
-    VERSION = "v10 try something"
+    VERSION = "v11 refine"
 
     def has_pair(self, hole_cards):
         print("Checking for pair...")
@@ -43,9 +43,10 @@ class Player:
         hole_cards = our_data["hole_cards"]
 
         try:
-            if self.need_bluff():
+            if not self.is_raised_pot(game_state) and self.need_bluff():
                 bet = our_data["stack"]
-            elif self.has_pair(hole_cards) and self.has_high_pair(hole_cards):
+
+            if self.has_pair(hole_cards) and self.has_high_pair(hole_cards):
                 bet = our_data["stack"]
             elif self.has_suited(hole_cards) and self.is_AK(hole_cards):
                 bet = our_data["stack"]
@@ -81,5 +82,14 @@ class Player:
         val = random.randint(1, 100)
         if val < 5:
             print(f"Bluffing because we got {val}...")
+            return True
+        return False
+
+    def is_raised_pot(self, game_state):
+        print("Checking for raised pot...")
+        is_raised = game_state["pot"] > game_state["small_blind"] + game_state[
+            "big_blind"]
+        if is_raised:
+            print(f"Pot is raised to {game_state['pot']}")
             return True
         return False
