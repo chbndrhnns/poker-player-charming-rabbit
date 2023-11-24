@@ -24,23 +24,26 @@ class Player:
         return False
 
     def betRequest(self, game_state):
-        bet = 0
         print(f"version: {self.VERSION} ")
         print(game_state)
 
-        in_action = game_state["in_action"]
-        our_data = game_state["players"][in_action]
-        stack = our_data["stack"]
-
+        bet = 0
+        our_data = self._get_our_data(game_state)
         hole_cards = our_data["hole_cards"]
 
+        # strategy: find premium pair
         if self.has_pair(hole_cards):
             print("We have a pair")
             if hole_cards[0]["rank"] in ("10", "J", "Q", "K", "A"):
                 print("We have a premium pair")
-                bet = stack
+                bet = our_data["stack"]
+
         print(f"Our decision: {bet}")
         return bet
+
+    def _get_our_data(self, game_state):
+        our_data = game_state["players"][game_state["in_action"]]
+        return our_data
 
     def showdown(self, game_state):
         pass
