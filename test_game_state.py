@@ -35,3 +35,8 @@ def test_check_if_bet_is_above_threshold():
 def test_call_ranking():
     response = Player().call_ranking()
     assert response == None
+
+def test_check_pair():
+    actual = Game.model_validate(data)
+    response = Player().check_pair(actual.get_our_data().hole_cards)
+    assert response == None
