@@ -31,12 +31,15 @@ class Player:
         our_data = self._get_our_data(game_state)
         hole_cards = our_data["hole_cards"]
 
-        # strategy: find premium pair
-        if self.has_pair(hole_cards):
-            print("We have a pair")
-            if hole_cards[0]["rank"] in ("10", "J", "Q", "K", "A"):
-                print("We have a premium pair")
-                bet = our_data["stack"]
+        try:
+            # strategy: find premium pair
+            if self.has_pair(hole_cards):
+                print("We have a pair")
+                if hole_cards[0]["rank"] in ("10", "J", "Q", "K", "A"):
+                    print("We have a premium pair")
+                    bet = our_data["stack"]
+        except:
+            pass
 
         print(f"Our decision: {bet}")
         return bet
