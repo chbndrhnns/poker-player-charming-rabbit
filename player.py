@@ -35,7 +35,7 @@ class Player:
 
         if self.has_pair(hole_cards):
             print("We have a pair")
-            if hole_cards[0] in ("10", "J", "Q", "K", "A"):
+            if hole_cards[0]["rank"] in ("10", "J", "Q", "K", "A"):
                 print("We have a premium pair")
                 return stack
         return 0
