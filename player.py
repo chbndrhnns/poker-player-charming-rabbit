@@ -16,7 +16,7 @@ example = {'tournament_id': '655e6ea29c97ef0002da0843',
 
 
 class Player:
-    VERSION = "v 8 add tests"
+    VERSION = "v9 second basic strategy"
 
     def has_pair(self, hole_cards):
         if hole_cards[0]["rank"] == hole_cards[1]["rank"]:
@@ -36,22 +36,25 @@ class Player:
         hole_cards = our_data["hole_cards"]
 
         try:
-            # strategy: find good pair
-            if self.has_pair(hole_cards):
-                if self.has_good_pair(hole_cards):
-
-                    bet = our_data["stack"]
-            elif self.has_suited(hole_cards):
-                ...
+            if self.has_pair(hole_cards) and self.has_high_pair(hole_cards):
+                bet = our_data["stack"]
+            elif self.has_suited(hole_cards) and self.is_AK(hole_cards):
+                bet = our_data["stack"]
         except:
             pass
 
         print(f"Our decision: {bet}")
         return bet
 
-    def has_good_pair(self, hole_cards):
+    def has_high_pair(self, hole_cards):
         if hole_cards[0]["rank"] in ("10", "J", "Q", "K", "A"):
             print("We have a good pair")
+            return True
+        return False
+
+    def is_AK(self, hole_cards):
+        if {hole_cards[0]["rank"], hole_cards[1]["rank"]} == {"A", "K"}:
+            print("is AK")
             return True
         return False
 

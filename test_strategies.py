@@ -14,6 +14,18 @@ class TestSuites:
 
         assert Player().has_suited(cards) is True
 
+    def test_is_AKs__True(self):
+        cards = [{'rank': 'K', 'suit': 'hearts'},
+                       {'rank': 'A', 'suit': 'hearts'}]
+
+        assert Player().is_AK(cards) is True
+
+    def test_is_AKs__False(self):
+        cards = [{'rank': '10', 'suit': 'hearts'},
+                       {'rank': 'A', 'suit': 'hearts'}]
+
+        assert Player().is_AK(cards) is False
+
 class TestPairs:
 
     def test_has_pairs__True(self):
@@ -32,10 +44,10 @@ class TestPairs:
         cards = [{'rank': '10', 'suit': 'hearts'},
                        {'rank': '10', 'suit': 'spades'}]
 
-        assert Player().has_good_pair(cards) is True
+        assert Player().has_high_pair(cards) is True
 
     def test_has_good_pairs__False(self):
         cards = [{'rank': '2', 'suit': 'spades'},
                        {'rank': '2', 'suit': 'spades'}]
 
-        assert Player().has_good_pair(cards) is False
+        assert Player().has_high_pair(cards) is False
