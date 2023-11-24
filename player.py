@@ -18,7 +18,7 @@ example = {'tournament_id': '655e6ea29c97ef0002da0843',
 
 
 class Player:
-    VERSION = "v12 cutoff"
+    VERSION = "v13 premium"
 
     def has_pair(self, hole_cards):
         print("Checking for pair...")
@@ -43,15 +43,16 @@ class Player:
         hole_cards = our_data["hole_cards"]
 
         try:
-            # first_to_raise = not self.is_raised_pot(game_state)
-
-            if not self.is_raised_pot(game_state) and self.need_bluff():
-                bet = our_data["stack"]
-
-            if self.has_pair(hole_cards) and self.has_high_pair(hole_cards):
-                bet = our_data["stack"]
-            elif self.has_suited(hole_cards) and self.is_AK(hole_cards):
-                bet = our_data["stack"]
+            if self.is_raised_pot(game_state):
+                if self.has_pair(hole_cards) and self.has_premium_pair(hole_cards):
+                    bet = our_data["stack"]
+            else:
+                if self.need_bluff():
+                    bet = our_data["stack"]
+                if self.has_pair(hole_cards) and self.has_high_pair(hole_cards):
+                    bet = our_data["stack"]
+                elif self.has_suited(hole_cards) and self.is_AK(hole_cards):
+                    bet = our_data["stack"]
         except:
             pass
 
@@ -62,6 +63,13 @@ class Player:
         print("Checking for high pair...")
         if hole_cards[0]["rank"] in ("10", "J", "Q", "K", "A"):
             print("We have a good pair")
+            return True
+        return False
+
+    def has_premium_pair(self, hole_cards):
+        print("Checking for premium pair...")
+        if hole_cards[0]["rank"] in ("Q", "K", "A"):
+            print("We have a premium pair")
             return True
         return False
 
