@@ -44,6 +44,8 @@ class Game(BaseModel):
                 return player
 
 
+
+
 class Player:
     data = {'tournament_id': '655e6ea29c97ef0002da0843',
             'game_id': '655f51fb5485f700028038ee', 'round': 7, 'players': [
@@ -66,36 +68,27 @@ class Player:
             if player.name == 'Charming Rabbit':
                 return player
 
-    VERSION = "v 5 in progress"
+    VERSION = "v 5 basic strategy"
 
-    def call_ranking(self):
-        cards = [{"rank": "5", "suit": "diamonds"},
-                 {"rank": "6", "suit": "diamonds"},
-                 {"rank": "7", "suit": "diamonds"},
-                 {"rank": "7", "suit": "spades"},
-                 {"rank": "8", "suit": "diamonds"},
-                 {"rank": "9", "suit": "diamonds"}
-                 ]
-        data = f'cards={json.dumps(cards)}'
-        response = requests.post("http://rainman.leanpoker.org/rank", data=data,
-                                 headers={'Content-Type': 'application/x-www-form-urlencoded'})
-        return response.json()
-
-    def check_pair(self, our_cards):
-        return our_cards
-
-
+    def has_pair(self, hole_cards):
+        if hole_cards[0]["rank"] == hole_cards[1]["rank"]:
+            return True
+        return False
 
     def betRequest(self, game_state):
         print(f"version: {self.VERSION} ")
         print(game_state)
-        return 0
+
         in_action = game_state["in_action"]
         our_data = game_state["players"][in_action]
-        #game = Game.model_validate(game_state)
-        #our_data = game.get_our_data()
-        do_i_have_pair = check_pair(our_data.hole_cards)
-        #return our_data.stack
+        stack = our_data["stack"]
+
+        hole_cards = our_data["hole_cards"]
+
+        if self.has_pair(hole_cards):
+            if hole_cards[0] in ("10", "J", "Q", "K", "A"):
+                return stack
+        return 0
 
     def showdown(self, game_state):
         pass
