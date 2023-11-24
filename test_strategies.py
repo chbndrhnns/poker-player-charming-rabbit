@@ -64,7 +64,7 @@ class TestRaisedPot:
         assert Player().is_raised_pot(gamestate) is False
 
     @pytest.mark.parametrize("state", [
-        {"pot": 7, "small_blind": 2, "big_blind": 4},
+        {"pot": 17, "small_blind": 2, "big_blind": 4},
     ])
     def test_true(self, state):
         assert Player().is_raised_pot(state) is True

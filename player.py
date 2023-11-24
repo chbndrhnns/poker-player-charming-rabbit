@@ -18,7 +18,7 @@ example = {'tournament_id': '655e6ea29c97ef0002da0843',
 
 
 class Player:
-    VERSION = "v11 refine"
+    VERSION = "v12 cutoff"
 
     def has_pair(self, hole_cards):
         print("Checking for pair...")
@@ -43,6 +43,8 @@ class Player:
         hole_cards = our_data["hole_cards"]
 
         try:
+            # first_to_raise = not self.is_raised_pot(game_state)
+
             if not self.is_raised_pot(game_state) and self.need_bluff():
                 bet = our_data["stack"]
 
@@ -86,9 +88,10 @@ class Player:
         return False
 
     def is_raised_pot(self, game_state):
-        print("Checking for raised pot...")
-        is_raised = game_state["pot"] > game_state["small_blind"] + game_state[
-            "big_blind"]
+        cutoff_point = game_state["small_blind"] * 8
+        print(f"Checking for raised pot (cutoff={cutoff_point})...")
+
+        is_raised = game_state["pot"] > cutoff_point
         if is_raised:
             print(f"Pot is raised to {game_state['pot']}")
             return True
